@@ -20,5 +20,16 @@ describe YandexApiDirect do
       expect(YandexApiDirect.configuration.app_id).to eq('0123456789')
       expect(YandexApiDirect.configuration.access_token).to eq('0123456789abcdef')
     end
+
+    it 'should allow to create Configuration instances with default base url' do
+      configuration = YandexApiDirect::Configuration.new
+      expect(configuration.base_url).to eq(YandexApiDirect::Configuration::BASE_URL_DEFAULT)
+    end
+
+    it 'should allow to create Configuration instances with params' do
+      configuration = YandexApiDirect::Configuration.new(app_id: '9876543210', access_token: 'fedcba9876543210')
+      expect(configuration.app_id).to eq('9876543210')
+      expect(configuration.access_token).to eq('fedcba9876543210')
+    end
   end
 end
