@@ -12,6 +12,10 @@ module YandexApiDirect
     include YandexApiDirect::Call
     include YandexApiDirect::Methods
 
+    def initialize(configuration = nil)
+      @configuration = configuration
+    end
+
     def configuration
       @configuration || YandexApiDirect.configuration
     end

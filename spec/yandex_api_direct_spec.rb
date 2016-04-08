@@ -31,5 +31,14 @@ describe YandexApiDirect do
       expect(configuration.app_id).to eq('9876543210')
       expect(configuration.access_token).to eq('fedcba9876543210')
     end
+
+    it 'should allow to configure DirectService instances separetely' do
+      configuration = YandexApiDirect::Configuration.new
+      configuration.app_id = '9876543210'
+      configuration.access_token = 'fedcba9876543210'
+      service_instance = YandexApiDirect::DirectService.new(configuration)
+      expect(service_instance.app_id).to eq('9876543210')
+      expect(service_instance.access_token).to eq('fedcba9876543210')
+    end
   end
 end
