@@ -7,7 +7,7 @@ describe YandexApiDirect::DirectService do
 
   let (:service) { YandexApiDirect.service }
   let (:default_response_body) { {:result => {:test => 'yes'} } }
-	let (:request_params) { params = {'SelectionCriteria': {}, 'FieldNames': ['Id'] }}
+  let (:request_params) { params = {'SelectionCriteria': {}, 'FieldNames': ['Id'] }}
 
   before do
     YandexApiDirect.reset_configuration
@@ -29,133 +29,133 @@ describe YandexApiDirect::DirectService do
 
   describe '#http' do
     it 'should return result of block call' do
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/compaigns').to_return(:status => 200, :body => default_response_body.to_json)
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/compaigns').to_return(:status => 200, :body => default_response_body.to_json)
       expect(service.http('compaigns', request_params) { |_| 'calculate result'}).to eq('calculate result')
     end
 
     it 'should pass http connection as parameter into block' do
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/compaigns').to_return(:status => 200, :body => default_response_body.to_json)
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/compaigns').to_return(:status => 200, :body => default_response_body.to_json)
       expect(service.http('compaigns', request_params) { |http| http }).to be_a(Net::HTTPResponse)
     end
   end
 
   describe '#call' do
-		it 'should setup appropriate headers' do
-			stub_request(:post, "https://api.direct.yandex.com/json/v5/campaigns")
+    it 'should setup appropriate headers' do
+      stub_request(:post, "https://api.direct.yandex.com/json/v5/campaigns")
         .to_return(:status => 200, :body => default_response_body.to_json)
 
       service.call('campaigns', {
-				'method' => 'get',
-				'params' => request_params
-			})
+        'method' => 'get',
+        'params' => request_params
+      })
 
       expect(WebMock).to have_requested(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
-				.with(body: {
-					'method' => 'get',
-					'params' => request_params
-				}.to_json)
-				.with(:headers => {
-					'Content-Type' => 'application/json; charset=utf-8'
-				})
+        .with(body: {
+          'method' => 'get',
+          'params' => request_params
+        }.to_json)
+        .with(:headers => {
+          'Content-Type' => 'application/json; charset=utf-8'
+        })
     end
 
     it 'should send request to appropriate url according to method name' do
-			stub_request(:post, "https://api.direct.yandex.com/json/v5/campaigns")
+      stub_request(:post, "https://api.direct.yandex.com/json/v5/campaigns")
         .to_return(:status => 200, :body => default_response_body.to_json)
 
       service.call('campaigns', {
-				'method' => 'test',
-				'params' => request_params
-			})
+        'method' => 'test',
+        'params' => request_params
+      })
 
       expect(WebMock).to have_requested(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
-				.with(body: {
-					'method' => 'test',
-					'params' => request_params
-				}.to_json)
+        .with(body: {
+          'method' => 'test',
+          'params' => request_params
+        }.to_json)
     end
 
     it 'should send request to appropriate url according params' do
-			stub_request(:post, "https://api.direct.yandex.com/json/v5/campaigns")
+      stub_request(:post, "https://api.direct.yandex.com/json/v5/campaigns")
         .to_return(:status => 200, :body => default_response_body.to_json)
 
       service.call('campaigns', {
-				'method' => 'test',
-				'params' => request_params.merge(test: 'test')
-			})
+        'method' => 'test',
+        'params' => request_params.merge(test: 'test')
+      })
 
       expect(WebMock).to have_requested(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
-				.with(body: {
-					'method' => 'test',
-					'params' => request_params.merge(test: 'test')
-				}.to_json)
+        .with(body: {
+          'method' => 'test',
+          'params' => request_params.merge(test: 'test')
+        }.to_json)
     end
 
     it 'should return raise MethodCallError if body of response is nil' do
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
         .to_return(:status => 200, :body => nil)
       expect {
-				service.call('campaigns', {
-					'method' => 'get',
-					'params' => request_params
-				})
-			}.to raise_error(YandexApiDirect::MethodCallError, 'Response could not be empty')
+        service.call('campaigns', {
+          'method' => 'get',
+          'params' => request_params
+        })
+      }.to raise_error(YandexApiDirect::MethodCallError, 'Response could not be empty')
     end
 
     it 'should return raise MethodCallError if body of response is empty string' do
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
         .to_return(:status => 200, :body => '')
       expect {
-				service.call('campaigns', {
-					'method' => 'get',
-					'params' => request_params
-				})
-			}.to raise_error(YandexApiDirect::MethodCallError, 'Response could not be empty')
+        service.call('campaigns', {
+          'method' => 'get',
+          'params' => request_params
+        })
+      }.to raise_error(YandexApiDirect::MethodCallError, 'Response could not be empty')
     end
 
     it 'should return raise MethodCallError if body of response has no key :result' do
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
         .to_return(:status => 200, :body => { :bad => :response }.to_json)
       expect {
-				service.call('campaigns', {
-					'method' => 'get',
-					'params' => request_params
-				})
-			}.to raise_error(YandexApiDirect::MethodCallError, 'Response should include key named :result')
+        service.call('campaigns', {
+          'method' => 'get',
+          'params' => request_params
+        })
+      }.to raise_error(YandexApiDirect::MethodCallError, 'Response should include key named :result')
     end
 
     it 'should raise MethodCallError error in case of internal server error' do
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
         .to_return(:status => 500, :body => 'Internal Server Error')
       expect {
-				service.call('campaigns', {
-					'method' => 'get',
-					'params' => request_params
-				})
-			}.to raise_error(YandexApiDirect::MethodCallError, 'Internal Server Error')
+        service.call('campaigns', {
+          'method' => 'get',
+          'params' => request_params
+        })
+      }.to raise_error(YandexApiDirect::MethodCallError, 'Internal Server Error')
     end
 
     it 'should raise MethodCallError in case of method call error' do
-			response = { :error => { :error_code => 54, :error_string => 'No rights', :error_detail => 'No rights to indicated client' } }
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
+      response = { :error => { :error_code => 54, :error_string => 'No rights', :error_detail => 'No rights to indicated client' } }
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
         .to_return(:status => 200, :body => response.to_json)
       expect {
-				service.call('campaigns', {
-					'method' => 'get',
-					'params' => request_params
-				})
-			}.to raise_error(YandexApiDirect::MethodCallError, response.to_json)
+        service.call('campaigns', {
+          'method' => 'get',
+          'params' => request_params
+        })
+      }.to raise_error(YandexApiDirect::MethodCallError, response.to_json)
     end
 
     it 'should return value of :result key of returned json' do
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/campaigns')
         .to_return(:status => 200, :body => default_response_body.to_json)
       expect(
-				service.call('campaigns', {
-					'method' => 'get',
-					'params' => request_params
-				})
-			).to eq(default_response_body[:result])
+        service.call('campaigns', {
+          'method' => 'get',
+          'params' => request_params
+        })
+      ).to eq(default_response_body[:result])
     end
   end
 end

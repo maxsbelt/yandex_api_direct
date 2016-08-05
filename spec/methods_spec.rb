@@ -16,17 +16,17 @@ describe YandexApiDirect::DirectService do
     end
 
     it 'should perform API request on method call with params' do
-			params = {
-				'SelectionCriteria': {},
-				'FieldNames': ['Id']
-			}
-			stub_request(:post, 'https://api.direct.yandex.com/json/v5/compaigns').to_return(:status => 200, :body => default_response_body.to_json)
+      params = {
+        'SelectionCriteria': {},
+        'FieldNames': ['Id']
+      }
+      stub_request(:post, 'https://api.direct.yandex.com/json/v5/compaigns').to_return(:status => 200, :body => default_response_body.to_json)
       service.compaigns.get(params)
       expect(WebMock).to have_requested(:post, 'https://api.direct.yandex.com/json/v5/compaigns')
-				.with(body: {
-					'method': 'get',
-					'params': params
-				}.to_json)
+        .with(body: {
+          'method': 'get',
+          'params': params
+        }.to_json)
     end
 
     describe 'configuration' do

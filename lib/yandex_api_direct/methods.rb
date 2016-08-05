@@ -18,7 +18,7 @@ module YandexApiDirect
       end
 
       def method_missing(method_name, *arguments, &block)
-				service.call(resource, method: method_name, params: arguments.first)
+        service.call(resource, method: method_name, params: arguments.first)
       end
 
       def respond_to?(method_name, include_private = false)
